@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en" data-release="loading">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Download AgriCare</title>
+<meta name="description" content="Download the AgriCare apps for Android: Farmer, Admin and Developer. Suarez Farm, Pandi, Bulacan.">
+<meta name="theme-color" content="#2E7D32">
+<!-- The preview Messenger and other chats show when the link is shared. -->
+<meta property="og:title" content="Download AgriCare">
+<meta property="og:description" content="Scan leaves, check your soil and the weather. AgriCare for Android, from Suarez Farm, Pandi, Bulacan.">
+<meta property="og:image" content="https://jrobinson8756-sketch.github.io/agricare-downloads/logo.png">
+<meta property="og:url" content="https://jrobinson8756-sketch.github.io/agricare-downloads/">
+<link rel="icon" href="logo.png">
+<style>
+  /* The app's colors (lib/theme/app_theme.dart). Words in green on a light
+     background use the darker green: the app's green is under 4.5:1 there. */
+  :root {
+    --green: #2E7D32;
+    --green-dark: #1B5E20;
+    --green-light: #E8F5E9;
+    --background: #F7F8F7;
+    --text: #1B1F1C;
+    --muted: #4B5563;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--text);
+    font: 16px/1.45 Roboto, "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+
+  header {
+    background: var(--green);
+    color: #fff;
+    text-align: center;
+    padding: 20px 0 28px;
+  }
+  header .wrap { position: relative; padding-top: 52px; }
+  .logo {
+    width: 96px; height: 96px;
+    padding: 4px;
+    background: #fff;
+    border-radius: 22px;
+  }
+  h1 { font-size: 26px; line-height: 1.2; margin: 12px 0 6px; }
+  header p { margin: 0; font-size: 16px; }
+  #lang {
+    position: absolute; top: 0; right: 16px;
+    display: inline-flex; align-items: center; gap: 6px;
+    min-width: 48px; min-height: 48px;
+    padding: 0 14px;
+    border: 2px solid #fff; border-radius: 24px;
+    background: transparent; color: #fff;
+    font: inherit; font-size: 15px; font-weight: 600;
+    cursor: pointer;
+  }
+
+  main { padding: 20px 0 8px; }
+  .card {
+    background: #fff;
+    border: 1px solid #DDE3DD;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+  .card h2 { font-size: 19px; margin: 0 0 4px; }
+  .what { margin: 0 0 6px; font-size: 15px; color: var(--muted); }
+  .meta { margin: 0 0 12px; font-size: 14px; color: var(--muted); }
+  .meta[hidden] { display: none; }
+  .farmer { border: 2px solid var(--green); padding: 20px 16px; }
+  .farmer h2 { font-size: 22px; }
+
+  a.download {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 48px;
+    margin-top: 10px;
+    padding: 10px 16px;
+    border: 1px solid #C8E6C9; border-radius: 12px;
+    background: var(--green-light); color: var(--green-dark);
+    font-size: 16px; font-weight: 600; text-decoration: none;
+  }
+  .farmer a.download {
+    min-height: 60px;
+    background: var(--green); color: #fff; border-color: var(--green);
+    font-size: 18px;
+  }
+  a.download[aria-disabled="true"] {
+    background: #E5E7EB; color: var(--muted); border-color: #E5E7EB;
+    pointer-events: none;
+  }
+  a.download svg { width: 22px; height: 22px; flex: none; }
+  a:focus-visible, button:focus-visible {
+    outline: 3px solid var(--green-dark); outline-offset: 2px;
+  }
+
+  .card h2.section { font-size: 18px; margin-bottom: 8px; }
+  ol.steps { list-style: none; counter-reset: step; margin: 0; padding: 0; }
+  ol.steps li {
+    counter-increment: step;
+    display: flex; gap: 12px; align-items: flex-start;
+    margin: 10px 0;
+  }
+  ol.steps li::before {
+    content: counter(step);
+    flex: none;
+    width: 28px; height: 28px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--green); color: #fff;
+    font-size: 15px; font-weight: 700;
+  }
+  .note { margin: 8px 0 0; font-size: 14px; color: var(--muted); }
+
+  .share { text-align: center; }
+  .share img {
+    display: block;
+    width: 200px; height: 200px; max-width: 100%;
+    margin: 8px auto;
+  }
+  .url { margin: 0; font-size: 14px; color: var(--muted); word-break: break-all; }
+
+  footer {
+    text-align: center;
+    padding: 4px 16px 28px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <button id="lang" type="button" title="English / Filipino">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>
+      <span data-en="English" data-fil="Filipino">English</span>
+    </button>
+    <img class="logo" src="logo.png" alt="AgriCare" width="96" height="96">
+    <h1 data-en="Download AgriCare" data-fil="I-download ang AgriCare">Download AgriCare</h1>
+    <p data-en="Install the AgriCare app on your Android phone." data-fil="I-install ang AgriCare app sa iyong Android phone.">Install the AgriCare app on your Android phone.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="card farmer" data-app="farmer">
+    <h2>AgriCare Farmer</h2>
+    <p class="what" data-en="Scan leaves, check your soil and the weather" data-fil="Mag-scan ng dahon, tingnan ang lupa at ang panahon">Scan leaves, check your soil and the weather</p>
+    <p class="meta" hidden></p>
+    <a class="download" href="https://github.com/jrobinson8756-sketch/agricare-downloads/releases/latest/download/agricare-farmer.apk">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/></svg>
+      <span data-en="Download for Android" data-fil="I-download para sa Android">Download for Android</span>
+    </a>
+  </section>
+
+  <section class="card" data-app="admin">
+    <h2>AgriCare Admin</h2>
+    <p class="what" data-en="For the farm Owner" data-fil="Para sa may-ari ng bukid">For the farm Owner</p>
+    <p class="meta" hidden></p>
+    <a class="download" href="https://github.com/jrobinson8756-sketch/agricare-downloads/releases/latest/download/agricare-admin.apk">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/></svg>
+      <span data-en="Download for Android" data-fil="I-download para sa Android">Download for Android</span>
+    </a>
+  </section>
+
+  <section class="card" data-app="developer">
+    <h2>AgriCare Developer</h2>
+    <p class="what" data-en="For the AgriCare team" data-fil="Para sa AgriCare team">For the AgriCare team</p>
+    <p class="meta" hidden></p>
+    <a class="download" href="https://github.com/jrobinson8756-sketch/agricare-downloads/releases/latest/download/agricare-developer.apk">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 20h14v-2H5v2zM19 9h-4V3H9v6H5l7 7 7-7z"/></svg>
+      <span data-en="Download for Android" data-fil="I-download para sa Android">Download for Android</span>
+    </a>
+  </section>
+
+  <section class="card">
+    <h2 class="section" data-en="How to install" data-fil="Paano i-install">How to install</h2>
+    <ol class="steps">
+      <li data-en="Download the app." data-fil="I-download ang app.">Download the app.</li>
+      <li data-en="Open the downloaded file." data-fil="Buksan ang file na na-download.">Open the downloaded file.</li>
+      <li data-en="If your phone asks, allow 'Install unknown apps'." data-fil="Kung itanong ng phone, payagan ang 'Install unknown apps'.">If your phone asks, allow 'Install unknown apps'.</li>
+      <li data-en="Log in with the account your Owner or Developer gave you." data-fil="Mag-log in gamit ang account na ibinigay sa iyo ng may-ari o ng Developer.">Log in with the account your Owner or Developer gave you.</li>
+    </ol>
+    <p class="note" data-en="Needs Android 7.0 or newer." data-fil="Kailangan ng Android 7.0 o mas bago.">Needs Android 7.0 or newer.</p>
+  </section>
+
+  <section class="card share">
+    <h2 class="section" data-en="Open this page on another phone" data-fil="Buksan ang page na ito sa ibang phone">Open this page on another phone</h2>
+    <img src="qr.svg" width="200" height="200" alt="QR code of this page" data-alt-en="QR code of this page" data-alt-fil="QR code ng page na ito">
+    <p class="url">jrobinson8756-sketch.github.io/agricare-downloads</p>
+  </section>
+</main>
+
+<footer>
+  <p data-en="Suarez Farm, Pandi, Bulacan · STI College San Jose Del Monte capstone" data-fil="Suarez Farm, Pandi, Bulacan · Capstone ng STI College San Jose Del Monte">Suarez Farm, Pandi, Bulacan · STI College San Jose Del Monte capstone</p>
+</footer>
+
+<script>
+// Shows the page in the phone's language (or the one picked), and fills
+// each card's version and size from GitHub's latest release. Without this
+// script, or when GitHub doesn't answer, the page still works in English
+// and every button still downloads.
+(function () {
+  var API = 'https://api.github.com/repos/jrobinson8756-sketch/agricare-downloads/releases/latest';
+  var APPS = ['farmer', 'admin', 'developer'];
+  var root = document.documentElement;
+  var hrefs = {};
+  APPS.forEach(function (app) {
+    hrefs[app] = card(app).querySelector('a.download').getAttribute('href');
+  });
+
+  // What GitHub said: 'loading', 'ok', 'none' (no release yet) or 'failed'.
+  var release = { status: 'loading', tag: '', sizes: {} };
+
+  function card(app) { return document.querySelector('[data-app="' + app + '"]'); }
+
+  // Storage can throw (a private tab, blocked site data): the choice is
+  // then simply not remembered.
+  function savedLanguage() {
+    try {
+      var lang = localStorage.getItem('agricare-language');
+      return lang === 'en' || lang === 'fil' ? lang : null;
+    } catch (e) { return null; }
+  }
+  function saveLanguage(lang) {
+    try { localStorage.setItem('agricare-language', lang); } catch (e) { }
+  }
+  var phone = navigator.language || '';
+  var lang = savedLanguage() || (/^(fil|tl)\b/i.test(phone) ? 'fil' : 'en');
+
+  function render() {
+    root.lang = lang;
+    document.title = lang === 'fil' ? 'I-download ang AgriCare' : 'Download AgriCare';
+    document.querySelectorAll('[data-fil]').forEach(function (el) {
+      el.textContent = el.dataset[lang];
+    });
+    document.querySelectorAll('[data-alt-fil]').forEach(function (el) {
+      el.alt = lang === 'fil' ? el.dataset.altFil : el.dataset.altEn;
+    });
+    APPS.forEach(function (app) {
+      var meta = card(app).querySelector('.meta');
+      var link = card(app).querySelector('a.download');
+      var size = release.sizes[app];
+      var missing = release.status === 'none' ||
+          (release.status === 'ok' && size === undefined);
+      if (missing) {
+        meta.textContent = lang === 'fil' ? 'Wala pa' : 'Not available yet';
+        meta.hidden = false;
+        link.removeAttribute('href');
+        link.setAttribute('aria-disabled', 'true');
+        return;
+      }
+      link.setAttribute('href', hrefs[app]);
+      link.removeAttribute('aria-disabled');
+      if (release.status === 'ok') {
+        var mb = Math.max(1, Math.round(size / 1048576)) + ' MB';
+        meta.textContent = release.tag ? release.tag + ' · ' + mb : mb;
+        meta.hidden = false;
+      } else {
+        meta.textContent = '';
+        meta.hidden = true;
+      }
+    });
+  }
+
+  document.getElementById('lang').addEventListener('click', function () {
+    lang = lang === 'en' ? 'fil' : 'en';
+    saveLanguage(lang);
+    render();
+  });
+
+  function finish(status) {
+    release.status = status;
+    root.dataset.release = status;
+    render();
+  }
+
+  render();
+  var controller = 'AbortController' in window ? new AbortController() : null;
+  var timer = setTimeout(function () { if (controller) controller.abort(); }, 5000);
+  fetch(API, controller ? { signal: controller.signal } : {})
+    .then(function (response) {
+      if (response.status === 404) return finish('none');
+      if (!response.ok) return finish('failed');
+      return response.json().then(function (data) {
+        release.tag = typeof data.tag_name === 'string' ? data.tag_name : '';
+        (Array.isArray(data.assets) ? data.assets : []).forEach(function (asset) {
+          var match = typeof asset.name === 'string' &&
+              asset.name.match(/^agricare-(farmer|admin|developer)\.apk$/);
+          if (match && typeof asset.size === 'number' && asset.size > 0) {
+            release.sizes[match[1]] = asset.size;
+          }
+        });
+        finish('ok');
+      });
+    })
+    .catch(function () { finish('failed'); })
+    .then(function () { clearTimeout(timer); });
+})();
+</script>
+</body>
+</html>
