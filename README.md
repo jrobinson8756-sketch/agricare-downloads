@@ -20,10 +20,20 @@ The app's source code is in a separate, private repository.
 ## Publishing an update
 
 1. Build the three APKs from the app repository (`.\tool\build_apks.ps1`,
-   without `-Demo`), signed with the AgriCare release key.
-2. Here on GitHub: Releases → Draft a new release → a new tag (e.g.
-   `v1.0.1`) → attach the three APKs, named exactly as in the table above →
-   Publish release.
+   without `-Demo`) on a PC that has `android\key.properties` and the
+   AgriCare release key. Without them the build warns "signed with the
+   DEBUG key": such APKs won't install over the apps already on farmers'
+   phones, so don't publish them.
+2. Check each APK's signer before publishing. Expected: `CN=AgriCare`.
+   ```
+   apksigner verify --print-certs build\app\outputs\flutter-apk\app-farmer-release.apk
+   ```
+   (`apksigner` is in the Android SDK's `build-tools` folder; repeat for
+   `app-admin-release.apk` and `app-developer-release.apk`.)
+3. Rename the three files to the names in the table above
+   (`app-farmer-release.apk` → `agricare-farmer.apk`, and so on).
+4. Here on GitHub: Releases → Draft a new release → a new tag (e.g.
+   `v1.0.1`) → attach the three renamed APKs → Publish release.
 
 The page needs no change: its buttons always download the latest release,
 and it reads each file's version and size from GitHub when it opens. A file
