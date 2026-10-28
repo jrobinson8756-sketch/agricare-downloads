@@ -106,6 +106,21 @@ def test_no_release_yet(open_page):
         assert _button(page, app).get_attribute("href") is None
 
 
+def test_install_help_covers_phone_warnings(open_page):
+    # Android warns about an APK from outside the Play Store, and Messenger's
+    # own browser may not download it: the page says what to tap, so a
+    # farmer doesn't stop at the first scary message.
+    page = open_page()
+    help = page.locator(".warnings").inner_text()
+    for words in ("Download anyway", "Install anyway", "Open in Chrome"):
+        assert words in help
+    page.click("#lang")
+    help = page.locator(".warnings").inner_text()
+    assert "Ligtas" in help
+    for words in ("Download anyway", "Install anyway", "Open in Chrome"):
+        assert words in help
+
+
 def test_install_steps_and_qr(open_page):
     page = open_page()
     assert page.locator("ol.steps li").count() == 4

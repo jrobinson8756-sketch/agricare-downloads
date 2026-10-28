@@ -111,6 +111,14 @@
     background: var(--green); color: #fff;
     font-size: 15px; font-weight: 700;
   }
+  .warnings {
+    margin: 12px 0 0;
+    padding: 4px 12px;
+    border-left: 4px solid #F9A825;
+    border-radius: 8px;
+    background: #FFF8E1;
+  }
+  .warnings p { margin: 8px 0; font-size: 15px; }
   .note { margin: 8px 0 0; font-size: 14px; color: var(--muted); }
 
   .share { text-align: center; }
@@ -181,6 +189,12 @@
       <li data-en="If your phone asks, allow 'Install unknown apps'." data-fil="Kung itanong ng phone, payagan ang 'Install unknown apps'.">If your phone asks, allow 'Install unknown apps'.</li>
       <li data-en="Log in with the account your Owner or Developer gave you." data-fil="Mag-log in gamit ang account na ibinigay sa iyo ng may-ari o ng Developer.">Log in with the account your Owner or Developer gave you.</li>
     </ol>
+    <!-- Android warns about an APK from outside the Play Store, and
+         Messenger's own browser may not download it: say what to tap. -->
+    <div class="warnings">
+      <p data-en="Your phone may warn that the file might be harmful. AgriCare is safe to install: tap 'Download anyway', then 'Install anyway'." data-fil="Maaaring sabihin ng phone na baka mapanganib ang file. Ligtas i-install ang AgriCare: pindutin ang 'Download anyway', at saka 'Install anyway'.">Your phone may warn that the file might be harmful. AgriCare is safe to install: tap 'Download anyway', then 'Install anyway'.</p>
+      <p data-en="Opened this page in Messenger? If the download doesn't start, tap ⋮ and choose 'Open in Chrome'." data-fil="Binuksan sa Messenger? Kung hindi magsimula ang download, pindutin ang ⋮ at piliin ang 'Open in Chrome'.">Opened this page in Messenger? If the download doesn't start, tap ⋮ and choose 'Open in Chrome'.</p>
+    </div>
     <p class="note" data-en="Needs Android 7.0 or newer." data-fil="Kailangan ng Android 7.0 o mas bago.">Needs Android 7.0 or newer.</p>
   </section>
 
