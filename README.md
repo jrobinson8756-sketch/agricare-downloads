@@ -4,13 +4,15 @@ The download page for the AgriCare apps (Farmer, Admin and Developer), a
 capstone project for Suarez Farm, Pandi, Bulacan (STI College San Jose Del
 Monte).
 
-**Site:** https://agricare-umber.vercel.app/
+**Site:** https://agricare-suarez.vercel.app/
 
 The page is one `index.html`, hosted on Vercel, which publishes it again on
 every push to `main`. Its old address on GitHub Pages
-(https://jrobinson8756-sketch.github.io/agricare-downloads/) forwards there,
-so keep GitHub Pages on: QR codes and links shared before the move still use
-it. The download buttons point to the newest release's files:
+(https://jrobinson8756-sketch.github.io/agricare-downloads/) and the address
+Vercel gave first (https://agricare-umber.vercel.app/) forward there, so keep
+GitHub Pages on and keep both Vercel domains: QR codes and links shared
+before still use them. The download buttons point to the newest release's
+files:
 
 | App | File |
 |-----|------|
