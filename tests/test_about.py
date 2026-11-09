@@ -2,8 +2,8 @@
 big download button, so it became "About", which opens a page saying why
 AgriCare was built, in English and Filipino like the rest of the site. Like
 the About page the team liked (whattofit.fashion), it retells the capstone
-paper's abstract in three paragraphs: the problems the client interview
-found, the system, then the method and what it aims for."""
+paper's abstract: the problems the client interview found, then the system.
+(The team dropped the paragraph on the method and aims.)"""
 
 from conftest import READABILITY, expect_language
 
@@ -23,21 +23,19 @@ def test_about_page_says_why_we_built_it(open_page):
     page = open_page(path="about.html")
     assert page.locator("h1").inner_text() == "About AgriCare"
     assert page.locator("h2").all_inner_texts() == ["Why we built it"]
-    assert page.locator(".about-text p").count() == 3
+    assert page.locator(".about-text p").count() == 2
     assert "STI College San Jose Del Monte" in page.locator(
         "footer").inner_text()
 
 
 def test_about_page_follows_the_paper(open_page):
     page = open_page(path="about.html")
-    problem, system, method = page.locator(
-        ".about-text p").all_inner_texts()
+    problem, system = page.locator(".about-text p").all_inner_texts()
     assert "Suarez Farm" in problem
     assert "interviewed the owner" in problem
     # The system, in the words of the paper's title.
     assert ("an IoT-based mobile system for crop health monitoring using "
             "image recognition and soil quality analysis") in system
-    assert "Agile" in method
 
 
 def test_about_page_speaks_filipino(open_page):
