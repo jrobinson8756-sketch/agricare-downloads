@@ -3,7 +3,7 @@ platform, a website where the APKs are downloaded. These drive the page in
 Chrome at a phone's size: the buttons get the newest APKs, the page speaks
 the phone's language, and it still works when GitHub doesn't answer."""
 
-from conftest import APPS, release
+from conftest import APPS, READABILITY, expect_language, release
 
 LATEST = ("https://github.com/jrobinson8756-sketch/agricare-downloads/"
           "releases/latest/download/")
@@ -15,16 +15,6 @@ def _button(page, app):
 
 def _meta(page, app):
     return page.locator(f'[data-app="{app}"] .meta')
-
-
-def _expect_language(page, lang):
-    """Every translated text shows in [lang] ("en" or "fil")."""
-    shown = page.eval_on_selector_all(
-        "[data-fil]",
-        f"els => els.map(e => [e.textContent.trim(), e.dataset.{lang}])")
-    assert shown, "no translated text found"
-    for text, wanted in shown:
-        assert text == wanted
 
 
 def test_buttons_point_to_the_latest_release(open_page):
@@ -55,12 +45,12 @@ def test_opens_in_filipino_on_a_filipino_phone(open_page):
 
 def test_language_button_switches_every_text(open_page):
     page = open_page()
-    _expect_language(page, "en")
+    expect_language(page, "en")
     page.click("#lang")
-    _expect_language(page, "fil")
+    expect_language(page, "fil")
     assert page.evaluate("document.documentElement.lang") == "fil"
     page.click("#lang")
-    _expect_language(page, "en")
+    expect_language(page, "en")
 
 
 def test_toggle_works_without_storage(open_page):
@@ -162,58 +152,11 @@ def test_install_steps_and_qr(open_page):
     assert "Suarez Farm" in page.locator("footer").inner_text()
 
 
-_READABILITY = r"""
-() => {
-  const problems = [];
-  const channel = v => {
-    v /= 255;
-    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
-  };
-  const luminance = ([r, g, b]) =>
-    0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b);
-  const rgba = s => (s.match(/[\d.]+/g) || []).map(Number);
-  const backgroundOf = el => {
-    for (let e = el; e; e = e.parentElement) {
-      const c = rgba(getComputedStyle(e).backgroundColor);
-      if (c.length >= 3 && (c.length < 4 || c[3] > 0)) return c.slice(0, 3);
-    }
-    return [255, 255, 255];
-  };
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-  for (let n = walker.nextNode(); n; n = walker.nextNode()) {
-    const text = n.textContent.trim();
-    if (!text) continue;
-    const el = n.parentElement;
-    const box = el.getBoundingClientRect();
-    const style = getComputedStyle(el);
-    if (box.width === 0 || box.height === 0 || style.visibility === 'hidden') continue;
-    const size = parseFloat(style.fontSize);
-    if (size < 13) problems.push(`"${text}" is ${size}px`);
-    const fg = rgba(style.color);
-    if (fg.length === 4 && fg[3] < 1) problems.push(`"${text}" is see-through`);
-    const a = luminance(fg.slice(0, 3)), b = luminance(backgroundOf(el));
-    const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
-    if (ratio < 4.5) problems.push(`"${text}" has contrast ${ratio.toFixed(2)}`);
-  }
-  for (const el of document.querySelectorAll('a, button')) {
-    const box = el.getBoundingClientRect();
-    if (box.width === 0) continue;
-    if (box.width < 48 || box.height < 48) {
-      problems.push(`"${el.textContent.trim()}" is ${box.width}x${box.height}`);
-    }
-  }
-  const width = document.documentElement.scrollWidth;
-  if (width > window.innerWidth) problems.push(`the page is ${width}px wide`);
-  return problems;
-}
-"""
-
-
 def test_readable_on_a_small_phone(open_page):
     page = open_page(width=320, height=640)
-    assert page.evaluate(_READABILITY) == []
+    assert page.evaluate(READABILITY) == []
     page.click("#lang")
-    assert page.evaluate(_READABILITY) == []
+    assert page.evaluate(READABILITY) == []
     # The cards' "not available" state too.
     page = open_page(width=320, height=640, api=release("farmer"))
-    assert page.evaluate(_READABILITY) == []
+    assert page.evaluate(READABILITY) == []

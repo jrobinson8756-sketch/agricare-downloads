@@ -6,8 +6,10 @@ Monte).
 
 **Site:** https://agricare-suarez.vercel.app/
 
-The page is one `index.html`, hosted on Vercel, which publishes it again on
-every push to `main`. Its old address on GitHub Pages
+The site is two pages sharing one stylesheet (`site.css`): `index.html`, the
+downloads, and `about.html`, why AgriCare was built (opened from the top
+bar's "About"). Both speak English and Filipino and remember the choice. It
+is hosted on Vercel, which publishes it again on every push to `main`. Its old address on GitHub Pages
 (https://jrobinson8756-sketch.github.io/agricare-downloads/) and the address
 Vercel gave first (https://agricare-umber.vercel.app/) forward there, so keep
 GitHub Pages on and keep both Vercel domains: QR codes and links shared

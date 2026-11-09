@@ -52,11 +52,12 @@ def browser():
 @pytest.fixture
 def open_page(browser, site_url):
     """Opens the page. [api] is GitHub's answer: a release (dict), an HTTP
-    status (int), or None for no connection."""
+    status (int), or None for no connection. [path] opens another page of
+    the site, such as "about.html"."""
     contexts = []
 
     def _open(width=360, height=800, locale="en-US", api=release(*APPS),
-              init_script=None):
+              init_script=None, path=""):
         context = browser.new_context(
             viewport={"width": width, "height": height}, locale=locale)
         contexts.append(context)
@@ -75,9 +76,10 @@ def open_page(browser, site_url):
                               body=json.dumps(api))
 
         page.route("https://api.github.com/**", answer)
-        page.goto(site_url)
+        page.goto(site_url + path)
         # The page marks <html data-release> once GitHub has answered (or
-        # not), so the tests see the finished cards.
+        # not), so the tests see the finished cards. A page without the
+        # cards has no mark, so it counts as finished at once.
         page.wait_for_function(
             "document.documentElement.dataset.release !== 'loading'")
         return page
@@ -85,3 +87,62 @@ def open_page(browser, site_url):
     yield _open
     for context in contexts:
         context.close()
+
+
+def expect_language(page, lang):
+    """Every translated text shows in [lang] ("en" or "fil")."""
+    shown = page.eval_on_selector_all(
+        "[data-fil]",
+        f"els => els.map(e => [e.textContent.trim(), e.dataset.{lang}])")
+    assert shown, "no translated text found"
+    for text, wanted in shown:
+        assert text == wanted
+
+
+# Text at least 13 px and 4.5:1, buttons and links at least 48 dp, and no
+# sideways scrolling: the checks every page of the site passes.
+READABILITY = r"""
+() => {
+  const problems = [];
+  const channel = v => {
+    v /= 255;
+    return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+  };
+  const luminance = ([r, g, b]) =>
+    0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b);
+  const rgba = s => (s.match(/[\d.]+/g) || []).map(Number);
+  const backgroundOf = el => {
+    for (let e = el; e; e = e.parentElement) {
+      const c = rgba(getComputedStyle(e).backgroundColor);
+      if (c.length >= 3 && (c.length < 4 || c[3] > 0)) return c.slice(0, 3);
+    }
+    return [255, 255, 255];
+  };
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+    const text = n.textContent.trim();
+    if (!text) continue;
+    const el = n.parentElement;
+    const box = el.getBoundingClientRect();
+    const style = getComputedStyle(el);
+    if (box.width === 0 || box.height === 0 || style.visibility === 'hidden') continue;
+    const size = parseFloat(style.fontSize);
+    if (size < 13) problems.push(`"${text}" is ${size}px`);
+    const fg = rgba(style.color);
+    if (fg.length === 4 && fg[3] < 1) problems.push(`"${text}" is see-through`);
+    const a = luminance(fg.slice(0, 3)), b = luminance(backgroundOf(el));
+    const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+    if (ratio < 4.5) problems.push(`"${text}" has contrast ${ratio.toFixed(2)}`);
+  }
+  for (const el of document.querySelectorAll('a, button')) {
+    const box = el.getBoundingClientRect();
+    if (box.width === 0) continue;
+    if (box.width < 48 || box.height < 48) {
+      problems.push(`"${el.textContent.trim()}" is ${box.width}x${box.height}`);
+    }
+  }
+  const width = document.documentElement.scrollWidth;
+  if (width > window.innerWidth) problems.push(`the page is ${width}px wide`);
+  return problems;
+}
+"""
