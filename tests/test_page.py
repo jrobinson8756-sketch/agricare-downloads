@@ -43,11 +43,14 @@ def test_farmer_card_comes_first_and_largest(open_page):
     assert farmer["height"] > admin["height"]
 
 
+HEADLINE = "Know what your farm needs, every day."
+HEADLINE_FIL = "Alamin ang kailangan ng bukid mo, araw-araw."
+
+
 def test_opens_in_filipino_on_a_filipino_phone(open_page):
     assert open_page(locale="fil-PH").locator("h1").inner_text() == \
-        "I-download ang AgriCare"
-    assert open_page(locale="en-US").locator("h1").inner_text() == \
-        "Download AgriCare"
+        HEADLINE_FIL
+    assert open_page(locale="en-US").locator("h1").inner_text() == HEADLINE
 
 
 def test_language_button_switches_every_text(open_page):
@@ -67,7 +70,38 @@ def test_toggle_works_without_storage(open_page):
           get() { throw new Error('storage blocked'); }
         });""")
     page.click("#lang")
-    assert page.locator("h1").inner_text() == "I-download ang AgriCare"
+    assert page.locator("h1").inner_text() == HEADLINE_FIL
+
+
+# The redesign (November 2026): laid out like a product landing page, a
+# big headline over four feature cards, in AgriCare's own colors.
+def test_hero_button_jumps_to_the_downloads(open_page):
+    page = open_page()
+    assert page.locator("a.hero-cta").get_attribute("href") == "#download"
+    assert page.locator('#download [data-app="farmer"]').count() == 1
+
+
+def test_four_feature_cards_say_what_the_app_does(open_page):
+    page = open_page()
+    titles = page.locator(".feature h3")
+    assert titles.all_inner_texts() == [
+        "Scan a leaf", "Check your soil", "Weather advice", "Ask for help"]
+    page.click("#lang")
+    assert titles.all_inner_texts() == [
+        "Mag-scan ng dahon", "Tingnan ang lupa", "Payo tungkol sa panahon",
+        "Humingi ng tulong"]
+
+
+def test_keeps_agricare_green(open_page):
+    # The app's leaf green (lib/theme/app_theme.dart), not the reference
+    # site's colors.
+    page = open_page()
+    green = "rgb(62, 112, 0)"
+    assert page.eval_on_selector(
+        ".hero", "e => getComputedStyle(e).backgroundColor") == green
+    assert page.eval_on_selector(
+        '[data-app="farmer"] a.download',
+        "e => getComputedStyle(e).backgroundColor") == green
 
 
 def test_shows_version_and_size_from_github(open_page):
