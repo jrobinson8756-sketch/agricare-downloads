@@ -226,7 +226,29 @@ a.back {
 a.back svg { width: 18px; height: 18px; }
 .about-text { margin-top: -48px; padding: 24px 22px; }
 .about-text h2 { margin-bottom: 12px; font-size: 24px; }
+/* The page's sections follow the paper's: why, what, who, and the
+   capstone itself. A gap above each heading but the first sets them apart. */
+.about-text h2:not(:first-child) { margin-top: 30px; }
 .about-text p { margin: 0 0 14px; font-size: 17px; line-height: 1.65; }
+.about-text li { font-size: 17px; line-height: 1.6; }
+.about-text ol.steps { margin-bottom: 14px; }
+.about-text ol.steps li { margin: 14px 0; }
+ul.who { margin: 0 0 14px; padding-left: 22px; }
+ul.who li { margin: 8px 0; }
+ul.who li::marker { color: var(--green); }
+/* The paper's title, as the paper has it (in English on both pages). */
+.paper-title {
+  padding: 14px 16px;
+  border-left: 4px solid var(--green);
+  border-radius: 8px;
+  background: var(--green-light);
+}
+.paper-title cite {
+  font-family: var(--heading);
+  font-size: 16px; font-style: normal; font-weight: 600;
+  line-height: 1.5;
+  color: var(--green-dark);
+}
 a.get-app {
   display: flex; align-items: center; justify-content: center; gap: 8px;
   min-height: 56px;
